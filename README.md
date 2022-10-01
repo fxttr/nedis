@@ -1,2 +1,2 @@
 # nedis
-netdis (NetDiscovery) is a fuzzer for web directories
+nedis (NetDiscovery) is a fuzzer for web directories
