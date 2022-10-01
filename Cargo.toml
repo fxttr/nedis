@@ -2,6 +2,7 @@
 name = "nedis"
 authors = ["Florian Buestgens <fb@fx-ttr.de>"]
 keywords = ["security", "fuzzer", "bruteforce", "dirbuster"]
+categories = ["command-line-utilities"]
 repository = "https://github.com/fxttr/nedis"
 version = "0.1.0"
 edition = "2021"
