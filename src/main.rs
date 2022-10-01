@@ -1,8 +1,8 @@
 mod fuzzer;
+mod connpool;
 
 use clap::Parser;
 use crate::fuzzer::Fuzzer;
-
 use crate::fuzzer::web::{WebEnumerate, WebFuzzer};
 
 #[derive(Parser, Debug)]
@@ -23,8 +23,14 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    let fuzzer: dyn Fuzzer = match args.random {
-        true => WebFuzzer::new(args.source, args.target, args.verbose),
-        _ => WebEnumerate::new(args.source, args.target, args.verbose)
-    };
+
+    if args.random {
+        let fuzzer = WebFuzzer::new(&args.source, &args.target, args.verbose);
+
+        fuzzer.run();
+    } else {
+        let fuzzer = WebEnumerate::new(&args.source, &args.target, args.verbose);
+
+        fuzzer.run();
+    }
 }

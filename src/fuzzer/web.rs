@@ -1,3 +1,6 @@
+use std::fs::File;
+use std::io::{BufRead, BufReader};
+use crate::connpool::Connpool;
 use crate::fuzzer::Fuzzer;
 
 pub struct WebEnumerate {
@@ -21,7 +24,16 @@ impl Fuzzer for WebEnumerate {
     }
 
     fn run(self) {
-        todo!()
+        let file = File::open(self.source).expect("No such file");
+        let buf = BufReader::new(file);
+        let dirs: Vec<String> = buf.lines()
+                                .map(|l| l.expect("Could not parse line"))
+                                .collect();
+        let pool = Connpool::new(&self.target, self.verbose);
+
+        for chunk in dirs.chunks(5) {
+            pool.bulk(chunk.to_vec())
+        }
     }
 }
 
