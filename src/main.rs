@@ -24,6 +24,7 @@ struct Args {
 fn main() {
     let args = Args::parse();
 
+    // Not implemented yet
     if args.random {
         let fuzzer = WebFuzzer::new(&args.source, &args.target, args.verbose);
 
