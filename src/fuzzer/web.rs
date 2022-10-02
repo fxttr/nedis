@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::{BufRead, BufReader};
+use std::io::{BufRead, BufReader, Write};
 use crate::connpool::Connpool;
 use crate::fuzzer::Fuzzer;
 
@@ -30,9 +30,14 @@ impl Fuzzer for WebEnumerate {
                                 .map(|l| l.expect("Could not parse line"))
                                 .collect();
         let pool = Connpool::new(&self.target, self.verbose);
+        let concurrent = 8;
+        let chunks = dirs.chunks(concurrent);
+        let chunk_len = chunks.len();
 
-        for chunk in dirs.chunks(5) {
-            pool.bulk(chunk.to_vec())
+        for (i, chunk) in chunks.enumerate() {
+            pool.bulk(chunk.to_vec());
+            print!("Progress: {:.3} %\r", ((i as f32 / chunk_len as f32) * 100 as f32));
+            std::io::stdout().flush();
         }
     }
 }
