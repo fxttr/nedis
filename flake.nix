@@ -40,8 +40,8 @@
           inherit src;
 
           buildInputs = [
-            openssl.dev
-            pkg-config
+            pkgs.openssl.dev
+            pkgs.pkg-config
           ] ++ lib.optionals pkgs.stdenv.isDarwin [
             # Additional darwin specific inputs can be set here
             pkgs.libiconv
